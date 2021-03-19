@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Taqs</string>
+    <string name="loading_weather_data_error">Error while loading weather info</string>
 </resources>
