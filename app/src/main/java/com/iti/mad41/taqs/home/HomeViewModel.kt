@@ -48,18 +48,6 @@ class HomeViewModel(
 
     init {
         loadWeatherData(true)
-        viewModelScope.launch {
-            weatherRepository.refreshWeatherData(
-                lat = 36.7783,
-                long = 119.4179,
-                units = IMPERIAL,
-                lang = ARABIC,
-                exclude = MINUTELY,
-                appid = "41ffcc244c198f0faa72daa9a9fa68d7"
-            )
-            _dataLoading.value = false
-        }
-        weatherRepository.observeWeatherData().switchMap { handleWeatherResult(it) }
     }
 
     fun loadWeatherData(forceUpdate: Boolean) {
