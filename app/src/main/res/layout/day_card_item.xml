@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,17 +10,18 @@
             type="com.iti.mad41.taqs.data.model.DailyItem"
             />
 
+        <variable
+            name="homeView"
+            type="com.iti.mad41.taqs.home.HomeViewModel" />
+
     </data>
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5sp"
-        app:cardBackgroundColor="#4DFFFFFF"
-        app:cardCornerRadius="10sp"
-        app:cardElevation="60dp">
+        app:cardCornerRadius="25sp"
+        app:cardElevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -34,42 +37,48 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@{daily.dt}" />
+                android:getDayFromDate="@{daily.dt}" />
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/day_img_view"
-                android:layout_width="40sp"
-                android:layout_height="40sp"
-                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/day_txt_view">
 
                 <ProgressBar
                     android:id="@+id/progress"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:visibility="visible"
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
                     android:indeterminate="true"
+                    android:indeterminateTint="@color/blue"
                     android:indeterminateTintMode="src_atop"
-                    android:indeterminateTint="@color/white"/>
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/img_glide"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/img_glide" />
 
                 <ImageView
                     android:id="@+id/img_glide"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:loadImage="@{daily.weather[0].icon}"
-                    tools:srcCompat="@drawable/cloudy"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@drawable/cloudy" />
 
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/day_temp_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:textSize="16sp"
-                android:loadTemperature="@{daily.temp}"
+                android:minMaxTemperature="@{daily.temp}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/weather_main"
@@ -80,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@{daily.weather[0].main}"
+                android:text="@{daily.weather[0].description}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/day_img_view" />

@@ -21,13 +21,7 @@ class WeatherRemoteDataSource: DataSource {
     }
 
     override fun observeWeatherData(): LiveData<Result<WeatherNode>> {
-        return observableWeatherData.map{
-            when(it){
-                is Result.Loading -> Result.Loading
-                is Success -> Success(it.data)
-                is Error -> Error(it.exception)
-            }
-        }
+        return observableWeatherData
     }
 
     override suspend fun fetchWeatherData(

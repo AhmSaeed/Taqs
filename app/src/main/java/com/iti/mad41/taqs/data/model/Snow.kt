@@ -5,11 +5,9 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class MinutelyItem(
+data class Snow (
 
-	@field:SerializedName("dt")
-	val dt: Long? = null,
+    @field:SerializedName("1h")
+    val jsonMember1h: Double? = null
 
-	@field:SerializedName("precipitation")
-	val precipitation: Double? = null
 ) : Parcelable

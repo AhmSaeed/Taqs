@@ -8,6 +8,7 @@ import com.iti.mad41.taqs.data.repo.WeatherRepository
 import com.iti.mad41.taqs.data.source.Result
 import com.iti.mad41.taqs.data.source.Result.Success
 import com.iti.mad41.taqs.util.ARABIC
+import com.iti.mad41.taqs.util.ENGLISH
 import com.iti.mad41.taqs.util.IMPERIAL
 import com.iti.mad41.taqs.util.MINUTELY
 import kotlinx.coroutines.launch
@@ -23,10 +24,10 @@ class HomeViewModel(
             _dataLoading.value = true
             viewModelScope.launch {
                 weatherRepository.refreshWeatherData(
-                    lat = 36.7783,
-                    long = 119.4179,
+                    lat = 61.5240,
+                    long = 105.3188,
                     units = IMPERIAL,
-                    lang = ARABIC,
+                    lang = ENGLISH,
                     exclude = MINUTELY,
                     appid = "41ffcc244c198f0faa72daa9a9fa68d7"
                 )
@@ -60,12 +61,9 @@ class HomeViewModel(
         if(weatherResult is Success){
             _isDataLoadingError.value = false
             result.value = weatherResult.data!!
-            Log.i("HomeViewModel", "handleWeatherResult: ${weatherResult.data!!}")
         } else {
-            result.value = WeatherNode()
             showSnackBarMessage(R.string.loading_weather_data_error)
             _isDataLoadingError.value = true
-            Log.i("HomeViewModel", "handleWeatherResult: Error")
         }
         return result
     }

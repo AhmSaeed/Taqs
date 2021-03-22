@@ -20,7 +20,7 @@ data class Current(
 	val visibility: Int? = null,
 
 	@field:SerializedName("uvi")
-	val uvi: Int? = null,
+	val uvi: Double? = null,
 
 	@field:SerializedName("pressure")
 	val pressure: Int? = null,
@@ -35,7 +35,7 @@ data class Current(
 	val windGust: Double? = null,
 
 	@field:SerializedName("dt")
-	val dt: Int? = null,
+	val dt: Long? = null,
 
 	@field:SerializedName("wind_deg")
 	val windDeg: Int? = null,

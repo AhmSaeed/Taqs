@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">Taqs</string>
     <string name="loading_weather_data_error">Error while loading weather info</string>
+    <string name="no_location_selected_alert">Taqs cannot fetch your location</string>
+    <string name="ask_for_access_location">Please allow Taqs to access your location</string>
+    <string name="allow_btn">Allow</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    //days
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
 </resources>
