@@ -1,18 +1,16 @@
 package com.iti.mad41.taqs.data.source.remote
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import com.iti.mad41.taqs.data.model.WeatherNode
-import com.iti.mad41.taqs.data.source.DataSource
+import com.iti.mad41.taqs.data.source.WeatherDataSource
 import com.iti.mad41.taqs.data.source.Result
 import com.iti.mad41.taqs.data.source.Result.Success
 import com.iti.mad41.taqs.data.source.Result.Error
 import kotlin.Exception
 
 
-class WeatherRemoteDataSource: DataSource {
+class WeatherRemoteDataSource: WeatherDataSource {
 
     private val observableWeatherData = MutableLiveData<Result<WeatherNode>>()
 

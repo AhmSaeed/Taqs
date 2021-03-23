@@ -3,7 +3,7 @@ package com.iti.mad41.taqs.data.source
 import androidx.lifecycle.LiveData
 import com.iti.mad41.taqs.data.model.WeatherNode
 
-interface DataSource {
+interface WeatherDataSource {
 
     fun setWeatherData(data: Result<WeatherNode>)
 
