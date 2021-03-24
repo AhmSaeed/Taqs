@@ -26,7 +26,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="20sp"
+            android:paddingHorizontal="15sp"
             android:paddingVertical="15sp">
 
             <TextView
@@ -43,7 +43,6 @@
                 android:id="@+id/day_img_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/day_txt_view">
@@ -76,7 +75,6 @@
                 android:id="@+id/day_temp_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:textSize="16sp"
                 android:minMaxTemperature="@{daily.temp}"
                 app:layout_constraintEnd_toEndOf="parent"

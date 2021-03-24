@@ -30,7 +30,7 @@ import com.iti.mad41.taqs.databinding.HomeFragmentBinding
 import com.iti.mad41.taqs.location.LocationViewModel
 import com.iti.mad41.taqs.location.LocationViewModelFactory
 
-class Home : Fragment() {
+class HomeFragment : Fragment() {
     private val LOCATION_PERMISSION_REQUEST_CODE = 2001;
 
     private lateinit var homeFragmentBinding: HomeFragmentBinding
