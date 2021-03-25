@@ -1,17 +1,29 @@
 <resources>
+    <string name="taqs_preference_file">com.iti.mad41.taqs.taqs_prefernce_file</string>
     <string name="app_name">Taqs</string>
     <string name="loading_weather_data_error">Error while loading weather info</string>
     <string name="no_location_selected_alert">Taqs cannot fetch your location</string>
     <string name="ask_for_access_location">Please allow Taqs to access your location</string>
     <string name="allow_btn">Allow</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    //days
-    <string name="saturday">Saturday</string>
-    <string name="sunday">Sunday</string>
-    <string name="monday">Monday</string>
-    <string name="tuesday">Tuesday</string>
-    <string name="wednesday">Wednesday</string>
-    <string name="thursday">Thursday</string>
-    <string name="friday">Friday</string>
+    <string name="preferences_header_title">Preferences</string>
+    <string name="location_preference_title">Location</string>
+    <string name="gps_preference_radio_btn_lbl">GPS</string>
+    <string name="map_preference_radio_btn_lbl">Map</string>
+    <string name="language_preference_title">Language</string>
+    <string name="en_preference_radio_btn_lbl">English</string>
+    <string name="ar_preference_radio_btn_lbl">Arabic</string>
+    <string name="temperature_preference_title">Temperature</string>
+    <string name="celsius_preference_radio_btn_lbl">Celsius</string>
+    <string name="kelvin_preference_radio_btn_lbl">Kelvin</string>
+    <string name="fahrenheit_preference_radio_btn_lbl">Fahrenheit</string>
+    <string name="wind_speed_preference_title">Wind Speed</string>
+    <string name="meter_per_sec_preference_radio_btn_lbl">Meter/Sec</string>
+    <string name="mile_per_hour_preference_radio_btn_lbl">Mile/Hour</string>
+    <string name="notifications_preference_title">Notifications</string>
+    <string name="enable_preference_radio_btn_lbl">Enable</string>
+    <string name="disable_preference_radio_btn_lbl">Disable</string>
+    <string name="drawer_navigation_home_fragment_lbl">Home</string>
+    <string name="drawer_navigation_favourites_fragment_lbl">Favourites</string>
+    <string name="drawer_navigation_alert_fragment_lbl">Alerts</string>
+    <string name="drawer_navigation_settings_fragment_lbl">Settings</string>
 </resources>

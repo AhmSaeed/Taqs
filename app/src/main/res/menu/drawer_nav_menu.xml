@@ -3,22 +3,22 @@
 
         <item
             android:id="@+id/homeFragment"
-            android:title="Home"
+            android:title="@string/drawer_navigation_home_fragment_lbl"
             android:icon="@drawable/home_icon"/>
 
         <item
             android:id="@+id/nav_favourites"
-            android:title="Favourites"
+            android:title="@string/drawer_navigation_favourites_fragment_lbl"
             android:icon="@drawable/heart_icon"/>
 
         <item
             android:id="@+id/nav_alert"
-            android:title="Alert"
+            android:title="@string/drawer_navigation_alert_fragment_lbl"
             android:icon="@drawable/bell_icon"/>
 
         <item
             android:id="@+id/settingsFragment"
-            android:title="Preferences"
+            android:title="@string/drawer_navigation_settings_fragment_lbl"
             android:icon="@drawable/more_icon"/>
 
 </menu>

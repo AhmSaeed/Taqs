@@ -35,4 +35,9 @@ interface WeatherRepository {
         exclude: String,
         appid: String
     )
+
+    fun getSelectedAccessLocationType(default: String): String?
+    fun saveSelectedAccessLocationType(type: String)
+    fun getSelectedLanguage(default: String): String?
+    fun saveSelectedLanguage(lang: String)
 }

@@ -9,11 +9,14 @@ import kotlinx.coroutines.Dispatchers
 import com.iti.mad41.taqs.data.source.Result
 import com.iti.mad41.taqs.data.source.Result.Success
 import com.iti.mad41.taqs.data.source.Result.Error
+import com.iti.mad41.taqs.data.source.preferences.PreferencesDataSource
+import com.iti.mad41.taqs.data.source.preferences.SharedPreferencesDataSource
 import kotlin.Exception
 
 class DefaultWeatherRepository(
-    private val weatherRemoteDataSource: WeatherRemoteDataSource,
-    private val Dispatcher: CoroutineDispatcher = Dispatchers.IO
+        private val weatherRemoteDataSource: WeatherRemoteDataSource,
+        private val preferencesDataSource: PreferencesDataSource,
+        private val Dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): WeatherRepository {
 
     override suspend fun getWeatherData(
@@ -88,4 +91,10 @@ class DefaultWeatherRepository(
             throw remoteWeatherData.exception
         }
     }
+
+    override fun getSelectedAccessLocationType(default: String): String? = preferencesDataSource.getSelectedAccessLocationType(default)
+    override fun saveSelectedAccessLocationType(type: String) = preferencesDataSource.saveSelectedAccessLocationType(type)
+
+    override fun getSelectedLanguage(default: String): String? = preferencesDataSource.getSelectedLanguage(default)
+    override fun saveSelectedLanguage(lang: String) = preferencesDataSource.saveSelectedLanguage(lang)
 }

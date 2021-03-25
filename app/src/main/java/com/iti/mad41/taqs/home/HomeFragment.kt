@@ -25,6 +25,8 @@ import com.iti.mad41.taqs.adapter.HourlyWeatherAdapter
 import com.iti.mad41.taqs.adapter.HourlyWeatherBindingAdapter
 import com.iti.mad41.taqs.data.repo.DefaultWeatherRepository
 import com.iti.mad41.taqs.data.repo.WeatherRepository
+import com.iti.mad41.taqs.data.source.preferences.PreferencesDataSource
+import com.iti.mad41.taqs.data.source.preferences.SharedPreferencesDataSource
 import com.iti.mad41.taqs.data.source.remote.WeatherRemoteDataSource
 import com.iti.mad41.taqs.databinding.HomeFragmentBinding
 import com.iti.mad41.taqs.location.LocationViewModel
@@ -40,13 +42,16 @@ class HomeFragment : Fragment() {
 
     private lateinit var weatherRemoteDataSource: WeatherRemoteDataSource
 
+    private lateinit var preferencesDataSource: PreferencesDataSource
+
     private lateinit var weatherRepository: WeatherRepository
 
     private lateinit var locationViewModel: LocationViewModel
 
     private val viewModel by viewModels<HomeViewModel>(){
         weatherRemoteDataSource = WeatherRemoteDataSource()
-        weatherRepository = DefaultWeatherRepository(weatherRemoteDataSource)
+        preferencesDataSource = SharedPreferencesDataSource(requireContext())
+        weatherRepository = DefaultWeatherRepository(weatherRemoteDataSource, preferencesDataSource)
         HomeViewModelFactory(weatherRepository)
     }
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="taqs_preference_file">com.iti.mad41.taqs.taqs_prefernce_file</string>
+    <string name="app_name">طقس</string>
+    <string name="loading_weather_data_error">"حدث خطأ خلال محاولة طقس عرض درجات الحرارة."</string>
+    <string name="no_location_selected_alert">لم يتمكن طقس من معرفة موقعك الجغرافي.</string>
+    <string name="ask_for_access_location">من فضلك قم بالسماح لتطبيق طقس بمعرفة موقعك الجغرافي.</string>
+    <string name="allow_btn">سماح</string>
+    <string name="preferences_header_title">إعدادات</string>
+    <string name="location_preference_title">موقع</string>
+    <string name="gps_preference_radio_btn_lbl">نظام GPS</string>
+    <string name="map_preference_radio_btn_lbl">خرائط</string>
+    <string name="language_preference_title">اللغة</string>
+    <string name="en_preference_radio_btn_lbl">الإنجليزية</string>
+    <string name="ar_preference_radio_btn_lbl">العربية</string>
+    <string name="temperature_preference_title">درجة الحرارة</string>
+    <string name="celsius_preference_radio_btn_lbl">وحدة Celsius</string>
+    <string name="kelvin_preference_radio_btn_lbl">وحدة Kelvin</string>
+    <string name="fahrenheit_preference_radio_btn_lbl">وحدة Fahrenheit</string>
+    <string name="wind_speed_preference_title">سرعة الرياح</string>
+    <string name="meter_per_sec_preference_radio_btn_lbl">متر في الثانية</string>
+    <string name="mile_per_hour_preference_radio_btn_lbl">ميل في الساعة</string>
+    <string name="notifications_preference_title">الإشعارات</string>
+    <string name="enable_preference_radio_btn_lbl">تفعيل</string>
+    <string name="disable_preference_radio_btn_lbl">إلغاء</string>
+    <string name="drawer_navigation_home_fragment_lbl">الرئيسية</string>
+    <string name="drawer_navigation_favourites_fragment_lbl">المفضلة</string>
+    <string name="drawer_navigation_alert_fragment_lbl">التنبيهات</string>
+    <string name="drawer_navigation_settings_fragment_lbl">الإعدادات</string>
+</resources>

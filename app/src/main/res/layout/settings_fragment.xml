@@ -2,9 +2,11 @@
 <layout>
 
     <data>
+        <import type="com.iti.mad41.taqs.settings.Language"/>
+        <import type="com.iti.mad41.taqs.settings.AccessLocationType"/>
         <variable
             name="settingsView"
-            type="com.iti.mad41.taqs.home.HomeViewModel"/>
+            type="com.iti.mad41.taqs.settings.SettingsViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -39,7 +41,7 @@
                         android:layout_margin="10dp"
                         android:layout_weight="1"
                         app:cardElevation="0dp"
-                        app:cardCornerRadius="25dp">
+                        app:cardCornerRadius="20dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -51,7 +53,7 @@
                                 android:id="@+id/first_left_top_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Location"
+                                android:text="@string/location_preference_title"
                                 android:textColor="#FFFFFF"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -76,19 +78,27 @@
                             android:orientation="vertical"
                             android:padding="10dp">
 
-                            <RadioButton
-                                android:id="@+id/first_left_first_selection_item"
-                                android:layout_width="match_parent"
+                            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                                android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:buttonTint="@color/blue"
-                                android:text="GPS" />
+                                android:orientation="vertical">
 
-                            <RadioButton
-                                android:id="@+id/first_left_second_selection_item"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:buttonTint="@color/blue"
-                                android:text="Map" />
+                                <RadioButton
+                                    android:id="@+id/first_left_first_selection_item"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:checked="@{settingsView.accessLocationType.equals(AccessLocationType.GPS.value)}"
+                                    android:buttonTint="@color/blue"
+                                    android:text="@string/gps_preference_radio_btn_lbl" />
+
+                                <RadioButton
+                                    android:id="@+id/first_left_second_selection_item"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:buttonTint="@color/blue"
+                                    android:text="@string/map_preference_radio_btn_lbl" />
+
+                            </RadioGroup>
 
                         </LinearLayout>
 
@@ -108,7 +118,7 @@
                         android:layout_margin="10dp"
                         android:layout_weight="1"
                         app:cardElevation="0dp"
-                        app:cardCornerRadius="25dp">
+                        app:cardCornerRadius="20dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -120,7 +130,7 @@
                                 android:id="@+id/first_right_top_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Language"
+                                android:text="@string/language_preference_title"
                                 android:textColor="#FFFFFF"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -145,19 +155,30 @@
                             android:orientation="vertical"
                             android:padding="10dp">
 
-                            <RadioButton
-                                android:id="@+id/first_right_first_selection_item"
-                                android:layout_width="match_parent"
+                            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                                android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:buttonTint="@color/blue"
-                                android:text="English" />
+                                android:orientation="vertical">
 
-                            <RadioButton
-                                android:id="@+id/first_right_second_selection_item"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:buttonTint="@color/blue"
-                                android:text="Arabic" />
+                                <RadioButton
+                                    android:id="@+id/first_right_first_selection_item"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:checked="@{settingsView.language.equals(Language.EN.value)}"
+                                    android:onClick="@{() -> settingsView.setLanguage(Language.EN.value)}"
+                                    android:buttonTint="@color/blue"
+                                    android:text="@string/en_preference_radio_btn_lbl" />
+
+                                <RadioButton
+                                    android:id="@+id/first_right_second_selection_item"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:checked="@{settingsView.language.equals(Language.AR.value)}"
+                                    android:onClick="@{() -> settingsView.setLanguage(Language.AR.value)}"
+                                    android:buttonTint="@color/blue"
+                                    android:text="@string/ar_preference_radio_btn_lbl" />
+
+                            </RadioGroup>
 
                         </LinearLayout>
 
@@ -185,7 +206,7 @@
                         android:layout_margin="10dp"
                         android:layout_weight="1"
                         app:cardElevation="0dp"
-                        app:cardCornerRadius="25dp">
+                        app:cardCornerRadius="20dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -197,7 +218,7 @@
                                 android:id="@+id/second_left_top_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Temperature"
+                                android:text="@string/temperature_preference_title"
                                 android:textColor="#FFFFFF"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -222,26 +243,33 @@
                             android:orientation="vertical"
                             android:padding="10dp">
 
-                            <RadioButton
-                                android:id="@+id/second_left_first_selection_item"
-                                android:layout_width="match_parent"
+                            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                                android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:buttonTint="@color/blue"
-                                android:text="Celsius" />
+                                android:orientation="vertical">
 
-                            <RadioButton
-                                android:id="@+id/second_left_second_selection_item"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:buttonTint="@color/blue"
-                                android:text="Kelvin" />
+                                <RadioButton
+                                    android:id="@+id/second_left_first_selection_item"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:buttonTint="@color/blue"
+                                    android:text="@string/celsius_preference_radio_btn_lbl" />
 
-                            <RadioButton
-                                android:id="@+id/second_left_third_selection_item"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:buttonTint="@color/blue"
-                                android:text="Fahrenheit" />
+                                <RadioButton
+                                    android:id="@+id/second_left_second_selection_item"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:buttonTint="@color/blue"
+                                    android:text="@string/kelvin_preference_radio_btn_lbl" />
+
+                                <RadioButton
+                                    android:id="@+id/second_left_third_selection_item"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:buttonTint="@color/blue"
+                                    android:text="@string/fahrenheit_preference_radio_btn_lbl" />
+
+                            </RadioGroup>
 
                         </LinearLayout>
 
@@ -261,7 +289,7 @@
                         android:layout_margin="10dp"
                         android:layout_weight="1"
                         app:cardElevation="0dp"
-                        app:cardCornerRadius="25dp">
+                        app:cardCornerRadius="20dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -273,7 +301,7 @@
                                 android:id="@+id/second_right_top_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Wind Speed"
+                                android:text="@string/wind_speed_preference_title"
                                 android:textColor="#FFFFFF"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -298,19 +326,26 @@
                             android:orientation="vertical"
                             android:padding="10dp">
 
-                            <RadioButton
-                                android:id="@+id/second_right_first_selection_item"
-                                android:layout_width="match_parent"
+                            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                                android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:buttonTint="@color/blue"
-                                android:text="Meter/Sec" />
+                                android:orientation="vertical">
 
-                            <RadioButton
-                                android:id="@+id/second_right_second_selection_item"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:buttonTint="@color/blue"
-                                android:text="Mile/Hour" />
+                                <RadioButton
+                                    android:id="@+id/second_right_first_selection_item"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:buttonTint="@color/blue"
+                                    android:text="@string/meter_per_sec_preference_radio_btn_lbl" />
+
+                                <RadioButton
+                                    android:id="@+id/second_right_second_selection_item"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:buttonTint="@color/blue"
+                                    android:text="@string/mile_per_hour_preference_radio_btn_lbl" />
+
+                            </RadioGroup>
 
                         </LinearLayout>
 
@@ -339,7 +374,7 @@
                         android:layout_margin="10dp"
                         android:layout_weight="1"
                         app:cardElevation="0dp"
-                        app:cardCornerRadius="25dp">
+                        app:cardCornerRadius="20dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -351,7 +386,7 @@
                                 android:id="@+id/third_left_top_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Notifications"
+                                android:text="@string/notifications_preference_title"
                                 android:textColor="#FFFFFF"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -376,19 +411,26 @@
                             android:orientation="vertical"
                             android:padding="10dp">
 
-                            <RadioButton
-                                android:id="@+id/third_left_first_selection_item"
-                                android:layout_width="match_parent"
+                            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                                android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:buttonTint="@color/blue"
-                                android:text="Enable" />
+                                android:orientation="vertical">
 
-                            <RadioButton
-                                android:id="@+id/third_left_second_selection_item"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:buttonTint="@color/blue"
-                                android:text="Disable" />
+                                <RadioButton
+                                    android:id="@+id/third_left_first_selection_item"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:buttonTint="@color/blue"
+                                    android:text="@string/enable_preference_radio_btn_lbl" />
+
+                                <RadioButton
+                                    android:id="@+id/third_left_second_selection_item"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:buttonTint="@color/blue"
+                                    android:text="@string/disable_preference_radio_btn_lbl" />
+
+                            </RadioGroup>
 
                         </LinearLayout>
 

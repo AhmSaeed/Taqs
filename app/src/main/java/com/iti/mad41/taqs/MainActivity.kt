@@ -1,5 +1,6 @@
 package com.iti.mad41.taqs
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -17,12 +18,20 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
+import com.iti.mad41.taqs.data.repo.DefaultWeatherRepository
+import com.iti.mad41.taqs.data.repo.WeatherRepository
+import com.iti.mad41.taqs.data.source.WeatherDataSource
+import com.iti.mad41.taqs.data.source.preferences.PreferencesDataSource
+import com.iti.mad41.taqs.data.source.preferences.SharedPreferencesDataSource
 import com.iti.mad41.taqs.home.HomeFragment
+import com.iti.mad41.taqs.settings.Language
+import com.iti.mad41.taqs.util.MyContextWrapper
 
 class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
+    private lateinit var preferencesDataSource: PreferencesDataSource
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.settingsFragment -> {
                     supportActionBar?.setDisplayShowTitleEnabled(true)
-                    supportActionBar?.title = "Preferences"
+                    supportActionBar?.title = getString(R.string.preferences_header_title)
                     true
                 }
                 else -> {}
@@ -67,5 +76,11 @@ class MainActivity : AppCompatActivity() {
             .apply {
                 setStatusBarBackground(R.color.blue)
             }
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        preferencesDataSource = SharedPreferencesDataSource(newBase!!)
+        val language: String = preferencesDataSource.getSelectedLanguage(Language.EN.value)!!
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, language))
     }
 }

@@ -12,3 +12,6 @@ const val MINUTELY = "minutely"
 
 const val ARABIC = "ar"
 const val ENGLISH = "en"
+
+const val ACCESS_LOCATION_WITH_GPS = "GPS"
+const val ACCESS_LOCATION_WITH_MAP = "MAP"

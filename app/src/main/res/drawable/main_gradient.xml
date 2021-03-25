@@ -5,5 +5,4 @@
         android:startColor="@color/blue"
         android:endColor="@color/fadedPoster"
         android:type="linear" />
-    <corners android:radius="25dp"/>
 </shape>
