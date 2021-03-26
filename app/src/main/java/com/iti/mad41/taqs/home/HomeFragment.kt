@@ -48,7 +48,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var locationViewModel: LocationViewModel
 
-    private val viewModel by viewModels<HomeViewModel>(){
+    private val viewModel by viewModels<HomeViewModel>{
         weatherRemoteDataSource = WeatherRemoteDataSource()
         preferencesDataSource = SharedPreferencesDataSource(requireContext())
         weatherRepository = DefaultWeatherRepository(weatherRemoteDataSource, preferencesDataSource)
@@ -128,7 +128,8 @@ class HomeFragment : Fragment() {
     private fun requestLocationUpdates(){
         locationViewModel = ViewModelProviders.of(this,
             LocationViewModelFactory(requireContext())).get(LocationViewModel::class.java)
-        locationViewModel.getLocationLiveData().observe(this, Observer {
+        locationViewModel.getLocationLiveData().observe(viewLifecycleOwner, Observer {
+            homeFragmentBinding.dateTimeTxtView.text = it.latitude.toString()
             Log.i("HomeFragment", "requestLocationUpdates: ${it.latitude}")
             Log.i("HomeFragment", "requestLocationUpdates: ${it.longitude}")
         })
@@ -159,6 +160,8 @@ class HomeFragment : Fragment() {
             // for ActivityCompat#requestPermissions for more details.
             val permissionRequest = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
             requestPermissions(permissionRequest, LOCATION_PERMISSION_REQUEST_CODE)
+        } else {
+            requestLocationUpdates()
         }
     }
 

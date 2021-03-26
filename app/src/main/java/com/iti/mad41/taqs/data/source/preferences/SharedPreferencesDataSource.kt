@@ -35,7 +35,8 @@ class SharedPreferencesDataSource(
         var long = preference?.getFloat(SHARED_PREF_LONGITUDE_KEY, 0.0F)?.toDouble()
         return LocationDetails(
                 latitude = lat!!,
-                longitude = long!!
+                longitude = long!!,
+                address= ""
         )
     }
 

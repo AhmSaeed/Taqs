@@ -1,12 +1,10 @@
 package com.iti.mad41.taqs.location
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
-import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.requestPermissions
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -15,14 +13,15 @@ import com.google.android.gms.location.LocationServices
 import com.iti.mad41.taqs.data.model.LocationDetails
 
 class LocationLiveData(val context: Context): LiveData<LocationDetails>() {
+    private val MAX_RESULT_VALUE = 1;
 
     private var fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
     @SuppressLint("MissingPermission")
     override fun onActive() {
         super.onActive()
-        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            location.also{
+        fusedLocationClient.lastLocation.addOnSuccessListener {
+            location: Location -> location.also{
                 setLocationData(it)
             }
         }
@@ -40,22 +39,34 @@ class LocationLiveData(val context: Context): LiveData<LocationDetails>() {
     }
 
     private val locationCallack = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult?) {
-            super.onLocationResult(locationResult)
+        override fun onLocationResult(locationsResult: LocationResult?) {
+            super.onLocationResult(locationsResult)
 
-            locationResult ?: return
+            locationsResult ?: return
 
-            for (location in locationResult.locations){
+            for (location in locationsResult.locations){
                 setLocationData(location)
             }
         }
     }
 
+    private fun getLocationGeoCoding(lat: Double, long: Double): String {
+        val geoCoder = Geocoder(context)
+        val locationsResult = geoCoder.getFromLocation(lat, long, MAX_RESULT_VALUE)
+
+        return if(locationsResult.size != 0) locationsResult[0].adminArea else ""
+    }
+
     private fun setLocationData(location: Location){
-        value = LocationDetails(
-            location.longitude,
-            location.latitude
-        )
+        Log.i("LocationLiveData", "setLocationData: ${location.longitude}")
+        Log.i("LocationLiveData", "setLocationData: ${location.latitude}")
+        if(location != null){
+            value = LocationDetails(
+                location.longitude,
+                location.latitude,
+                getLocationGeoCoding(location.latitude, location.longitude)
+            )
+        }
     }
 
     companion object{

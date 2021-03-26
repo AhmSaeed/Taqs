@@ -9,7 +9,7 @@
             type="com.iti.mad41.taqs.settings.SettingsViewModel"/>
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -88,6 +88,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:checked="@{settingsView.accessLocationType.equals(AccessLocationType.GPS.value)}"
+                                    android:onClick="@{() -> settingsView.setAccessLocationType(AccessLocationType.GPS.value)}"
                                     android:buttonTint="@color/blue"
                                     android:text="@string/gps_preference_radio_btn_lbl" />
 
@@ -95,6 +96,8 @@
                                     android:id="@+id/first_left_second_selection_item"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:checked="@{settingsView.accessLocationType.equals(AccessLocationType.Map.value)}"
+                                    android:onClick="@{() -> settingsView.setAccessLocationType(AccessLocationType.Map.value)}"
                                     android:buttonTint="@color/blue"
                                     android:text="@string/map_preference_radio_btn_lbl" />
 
@@ -512,5 +515,5 @@
             </LinearLayout>
 
         </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

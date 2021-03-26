@@ -10,5 +10,8 @@ data class LocationDetails (
     val longitude: Double,
 
     @field:SerializedName("latitude")
-    val latitude: Double
+    val latitude: Double,
+
+    @field:SerializedName("Address")
+    val address: String
 ) : Parcelable

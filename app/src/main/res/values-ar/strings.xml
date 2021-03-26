@@ -6,6 +6,7 @@
     <string name="no_location_selected_alert">لم يتمكن طقس من معرفة موقعك الجغرافي.</string>
     <string name="ask_for_access_location">من فضلك قم بالسماح لتطبيق طقس بمعرفة موقعك الجغرافي.</string>
     <string name="allow_btn">سماح</string>
+
     <string name="preferences_header_title">إعدادات</string>
     <string name="location_preference_title">موقع</string>
     <string name="gps_preference_radio_btn_lbl">نظام GPS</string>
@@ -23,8 +24,13 @@
     <string name="notifications_preference_title">الإشعارات</string>
     <string name="enable_preference_radio_btn_lbl">تفعيل</string>
     <string name="disable_preference_radio_btn_lbl">إلغاء</string>
+
     <string name="drawer_navigation_home_fragment_lbl">الرئيسية</string>
     <string name="drawer_navigation_favourites_fragment_lbl">المفضلة</string>
     <string name="drawer_navigation_alert_fragment_lbl">التنبيهات</string>
     <string name="drawer_navigation_settings_fragment_lbl">الإعدادات</string>
+
+    <string name="map_header_title">إختر موقع</string>
+
+    <string name="cannot_access_current_location_msg">لم يتمكن طقس من معرفة موقعك الجغرافي، تأكد من تغير من الإعدادات</string>
 </resources>

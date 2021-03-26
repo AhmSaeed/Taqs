@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -15,6 +16,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -26,7 +28,7 @@ android {
         }
 
         // Inject the Maps API key into the manifest
-        resValue "string", "appId", properties.getProperty("appId", "")
+        manifestPlaceholders = [ mapsApiKey : properties.getProperty("MAPS_API_KEY", "") ]
     }
 
     buildTypes {
@@ -61,6 +63,7 @@ dependencies {
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.4'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.4'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
     kapt "androidx.lifecycle:lifecycle-compiler:2.3.0"
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
@@ -96,4 +99,10 @@ dependencies {
 
     //Location
     implementation 'com.google.android.gms:play-services-location:17.0.0'
+
+    implementation "androidx.multidex:multidex:2.0.1"
+
+    //Google places and location Apis
+    implementation 'com.google.android.libraries.places:places:2.4.0'
+    'com.google.android.gms:play-services-location:17.1.0'
 }
