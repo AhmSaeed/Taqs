@@ -32,4 +32,13 @@
     <string name="map_header_title">Choose location</string>
 
     <string name="cannot_access_current_location_msg">Cannot access your current location, Make sure you allowed Taqs to access your current location</string>
+
+    <string name="confirm_location_message">Confirm your selection</string>
+    <string name="snack_bar_btn_Lbl">Confirm</string>
+
+    <string name="no_internet_connection">No internet connection, please make sure you have a reliable internet connection.</string>
+
+    <string name="try_connect_to_network_btn_lbl">Try again</string>
+
+    <string name="favourites_header_title">Favourites</string>
 </resources>

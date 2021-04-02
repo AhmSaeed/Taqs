@@ -1,11 +1,9 @@
 package com.iti.mad41.taqs.home
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -13,16 +11,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.iti.mad41.taqs.R
+import com.google.android.material.snackbar.Snackbar
 import com.iti.mad41.taqs.adapter.DailyWeatherAdapter
 import com.iti.mad41.taqs.adapter.HourlyWeatherAdapter
-import com.iti.mad41.taqs.adapter.HourlyWeatherBindingAdapter
 import com.iti.mad41.taqs.data.repo.DefaultWeatherRepository
 import com.iti.mad41.taqs.data.repo.WeatherRepository
 import com.iti.mad41.taqs.data.source.preferences.PreferencesDataSource
@@ -31,6 +26,8 @@ import com.iti.mad41.taqs.data.source.remote.WeatherRemoteDataSource
 import com.iti.mad41.taqs.databinding.HomeFragmentBinding
 import com.iti.mad41.taqs.location.LocationViewModel
 import com.iti.mad41.taqs.location.LocationViewModelFactory
+import com.iti.mad41.taqs.settings.AccessLocationType
+import com.iti.mad41.taqs.util.setupSnackbar
 
 class HomeFragment : Fragment() {
     private val LOCATION_PERMISSION_REQUEST_CODE = 2001;
@@ -52,7 +49,7 @@ class HomeFragment : Fragment() {
         weatherRemoteDataSource = WeatherRemoteDataSource()
         preferencesDataSource = SharedPreferencesDataSource(requireContext())
         weatherRepository = DefaultWeatherRepository(weatherRemoteDataSource, preferencesDataSource)
-        HomeViewModelFactory(weatherRepository)
+        HomeViewModelFactory(requireActivity().application, weatherRepository)
     }
 
     override fun onCreateView(
@@ -66,17 +63,31 @@ class HomeFragment : Fragment() {
         return homeFragmentBinding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view?.setupSnackbar(this, viewModel.snackbarText, Snackbar.LENGTH_LONG)
         homeFragmentBinding.lifecycleOwner = this.viewLifecycleOwner
         setupDailyListAdapter()
         setupHourlyListAdapter()
+        prepareRequestLocationPermission()
 
         homeFragmentBinding.requestPermissionButton.setOnClickListener{
             navigateToAppSetting()
         }
 
-        prepareRequestLocationPermission()
+        viewModel.isDataLoadingError.observe(viewLifecycleOwner, Observer { isError ->
+            if(isError){
+                toggleNoNetworkVisibility(View.VISIBLE)
+                toggleHomeComponentsVisibility(View.GONE)
+                toggleLocationPermissionVisibility(View.GONE)
+            }
+        })
+
+        viewModel.accessLocationType.observe(viewLifecycleOwner, Observer {type ->
+            if(type.equals(AccessLocationType.Map.value)){
+                locationViewModel.getLocationLiveData().removeObservers(viewLifecycleOwner)
+            }
+        })
     }
 
     override fun onResume() {
@@ -129,9 +140,8 @@ class HomeFragment : Fragment() {
         locationViewModel = ViewModelProviders.of(this,
             LocationViewModelFactory(requireContext())).get(LocationViewModel::class.java)
         locationViewModel.getLocationLiveData().observe(viewLifecycleOwner, Observer {
-            homeFragmentBinding.dateTimeTxtView.text = it.latitude.toString()
-            Log.i("HomeFragment", "requestLocationUpdates: ${it.latitude}")
-            Log.i("HomeFragment", "requestLocationUpdates: ${it.longitude}")
+            viewModel.saveLocation(it.latitude, it.longitude, it.address)
+            homeFragmentBinding.cityTxtView.text = it.address
         })
     }
 
@@ -178,6 +188,11 @@ class HomeFragment : Fragment() {
     private fun toggleLocationPermissionVisibility(visibility: Int){
         homeFragmentBinding.requestPermissionCardView.visibility = visibility
         homeFragmentBinding.requestPermissionButton.visibility = visibility
+    }
+
+    private fun toggleNoNetworkVisibility(visibility: Int){
+        homeFragmentBinding.noNetworkImagePlaceholder.visibility = visibility
+        homeFragmentBinding.tryAgainBtn.visibility = visibility
     }
 
     private fun navigateToAppSetting() {

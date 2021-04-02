@@ -4,6 +4,8 @@
     <data>
         <import type="com.iti.mad41.taqs.settings.Language"/>
         <import type="com.iti.mad41.taqs.settings.AccessLocationType"/>
+        <import type="com.iti.mad41.taqs.settings.TemperatureUnit"/>
+        <import type="com.iti.mad41.taqs.settings.WindSpeedUnit"/>
         <variable
             name="settingsView"
             type="com.iti.mad41.taqs.settings.SettingsViewModel"/>
@@ -88,7 +90,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:checked="@{settingsView.accessLocationType.equals(AccessLocationType.GPS.value)}"
-                                    android:onClick="@{() -> settingsView.setAccessLocationType(AccessLocationType.GPS.value)}"
+                                    android:onClick="@{() -> settingsView.onSelectAccessLocationType(AccessLocationType.GPS.value)}"
                                     android:buttonTint="@color/blue"
                                     android:text="@string/gps_preference_radio_btn_lbl" />
 
@@ -97,7 +99,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:checked="@{settingsView.accessLocationType.equals(AccessLocationType.Map.value)}"
-                                    android:onClick="@{() -> settingsView.setAccessLocationType(AccessLocationType.Map.value)}"
+                                    android:onClick="@{() -> settingsView.onSelectAccessLocationType(AccessLocationType.Map.value)}"
                                     android:buttonTint="@color/blue"
                                     android:text="@string/map_preference_radio_btn_lbl" />
 
@@ -168,7 +170,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:checked="@{settingsView.language.equals(Language.EN.value)}"
-                                    android:onClick="@{() -> settingsView.setLanguage(Language.EN.value)}"
+                                    android:onClick="@{() -> settingsView.saveLanguage(Language.EN.value)}"
                                     android:buttonTint="@color/blue"
                                     android:text="@string/en_preference_radio_btn_lbl" />
 
@@ -177,7 +179,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:checked="@{settingsView.language.equals(Language.AR.value)}"
-                                    android:onClick="@{() -> settingsView.setLanguage(Language.AR.value)}"
+                                    android:onClick="@{() -> settingsView.saveLanguage(Language.AR.value)}"
                                     android:buttonTint="@color/blue"
                                     android:text="@string/ar_preference_radio_btn_lbl" />
 
@@ -256,21 +258,27 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:buttonTint="@color/blue"
-                                    android:text="@string/celsius_preference_radio_btn_lbl" />
+                                    android:text="@string/celsius_preference_radio_btn_lbl"
+                                    android:checked="@{settingsView.temperatureUnit.equals(TemperatureUnit.Celsius.value)}"
+                                    android:onClick="@{() -> settingsView.onSelectTemperatureUnit(TemperatureUnit.Celsius.value)}"/>
 
                                 <RadioButton
                                     android:id="@+id/second_left_second_selection_item"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:buttonTint="@color/blue"
-                                    android:text="@string/kelvin_preference_radio_btn_lbl" />
+                                    android:text="@string/kelvin_preference_radio_btn_lbl"
+                                    android:checked="@{settingsView.temperatureUnit.equals(TemperatureUnit.Kelvin.value)}"
+                                    android:onClick="@{() -> settingsView.onSelectTemperatureUnit(TemperatureUnit.Kelvin.value)}"/>
 
                                 <RadioButton
                                     android:id="@+id/second_left_third_selection_item"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:buttonTint="@color/blue"
-                                    android:text="@string/fahrenheit_preference_radio_btn_lbl" />
+                                    android:text="@string/fahrenheit_preference_radio_btn_lbl"
+                                    android:checked="@{settingsView.temperatureUnit.equals(TemperatureUnit.Fahrenheit.value)}"
+                                    android:onClick="@{() -> settingsView.onSelectTemperatureUnit(TemperatureUnit.Fahrenheit.value)}"/>
 
                             </RadioGroup>
 
@@ -339,14 +347,18 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:buttonTint="@color/blue"
-                                    android:text="@string/meter_per_sec_preference_radio_btn_lbl" />
+                                    android:text="@string/meter_per_sec_preference_radio_btn_lbl"
+                                    android:checked="@{settingsView.windSpeedUnit.equals(WindSpeedUnit.MPS.value)}"
+                                    android:onClick="@{() -> settingsView.onSelectWindSpeedUnit(WindSpeedUnit.MPS.value)}"/>
 
                                 <RadioButton
                                     android:id="@+id/second_right_second_selection_item"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:buttonTint="@color/blue"
-                                    android:text="@string/mile_per_hour_preference_radio_btn_lbl" />
+                                    android:text="@string/mile_per_hour_preference_radio_btn_lbl"
+                                    android:checked="@{settingsView.windSpeedUnit.equals(WindSpeedUnit.MPH.value)}"
+                                    android:onClick="@{() -> settingsView.onSelectWindSpeedUnit(WindSpeedUnit.MPH.value)}"/>
 
                             </RadioGroup>
 

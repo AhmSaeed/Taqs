@@ -26,4 +26,12 @@
         android:name="com.iti.mad41.taqs.map.MapsFragment"
         android:label="@string/map_header_title"
         tools:layout="@layout/fragment_maps" />
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.iti.mad41.taqs.favourites.FavouritesFragment"
+        android:label="FavouritesFragment" >
+        <action
+            android:id="@+id/action_favouritesFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
 </navigation>

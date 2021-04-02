@@ -13,7 +13,7 @@ import com.google.android.gms.location.LocationServices
 import com.iti.mad41.taqs.data.model.LocationDetails
 
 class LocationLiveData(val context: Context): LiveData<LocationDetails>() {
-    private val MAX_RESULT_VALUE = 1;
+    private val MAX_RESULT_VALUE = 1
 
     private var fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
@@ -58,8 +58,6 @@ class LocationLiveData(val context: Context): LiveData<LocationDetails>() {
     }
 
     private fun setLocationData(location: Location){
-        Log.i("LocationLiveData", "setLocationData: ${location.longitude}")
-        Log.i("LocationLiveData", "setLocationData: ${location.latitude}")
         if(location != null){
             value = LocationDetails(
                 location.longitude,

@@ -2,6 +2,7 @@ package com.iti.mad41.taqs.data.source
 
 import androidx.lifecycle.LiveData
 import com.iti.mad41.taqs.data.model.WeatherNode
+import com.iti.mad41.taqs.util.WEATHER_API_KEY
 
 interface WeatherDataSource {
 
@@ -13,8 +14,6 @@ interface WeatherDataSource {
         lat: Double,
         long: Double,
         units: String,
-        lang: String,
-        exclude: String,
-        appid: String
+        lang: String
     ): Result<WeatherNode>
 }

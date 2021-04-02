@@ -18,18 +18,30 @@ fun View.showSnackbar(snackbarText: String, timeLength: Int) {
     snackBar.show()
 }
 
+fun View.showSnackbarWithButton(snackbarText: String, timeLength: Int, btnListener : View.OnClickListener) {
+    var snackBar = Snackbar.make(this, snackbarText, timeLength)
+    snackBar.setAction(resources.getString(R.string.snack_bar_btn_Lbl), btnListener)
+    var snackBarView = snackBar.view
+    snackBarView.setBackgroundColor(resources.getColor(R.color.blue))
+    snackBar.show()
+}
+
 /**
  * Triggers a snackbar message when the value contained by snackbarTaskMessageLiveEvent is modified.
  */
 fun View.setupSnackbar(
-    lifecycleOwner: LifecycleOwner,
-    snackbarEvent: LiveData<Int>,
-    timeLength: Int
+        lifecycleOwner: LifecycleOwner,
+        snackbarEvent: LiveData<Int>,
+        timeLength: Int,
+        actionListener: View.OnClickListener? = null
 ) {
 
     snackbarEvent.observe(lifecycleOwner, Observer { event ->
 
-        showSnackbar(context.getString(event), timeLength)
+        if(actionListener != null)
+            showSnackbarWithButton(context.getString(event), timeLength, actionListener)
+        else
+            showSnackbar(context.getString(event), timeLength)
 
     })
 }

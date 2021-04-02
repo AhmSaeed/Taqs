@@ -1,5 +1,6 @@
 package com.iti.mad41.taqs.data.source.remote
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iti.mad41.taqs.data.model.WeatherNode
@@ -7,7 +8,9 @@ import com.iti.mad41.taqs.data.source.WeatherDataSource
 import com.iti.mad41.taqs.data.source.Result
 import com.iti.mad41.taqs.data.source.Result.Success
 import com.iti.mad41.taqs.data.source.Result.Error
+import com.iti.mad41.taqs.util.MINUTELY
 import kotlin.Exception
+import com.iti.mad41.taqs.util.WEATHER_API_KEY
 
 
 class WeatherRemoteDataSource: WeatherDataSource {
@@ -26,9 +29,7 @@ class WeatherRemoteDataSource: WeatherDataSource {
         lat: Double,
         long: Double,
         units: String,
-        lang: String,
-        exclude: String,
-        appid: String
+        lang: String
     ): Result<WeatherNode> {
         var result = WeatherApi
             .getWeatherClient()
@@ -37,8 +38,8 @@ class WeatherRemoteDataSource: WeatherDataSource {
                 long,
                 units,
                 lang,
-                exclude,
-                appid
+                exclude = MINUTELY,
+                appid = WEATHER_API_KEY
             )
         if(result.isSuccessful){
             return Success(result.body()!!)

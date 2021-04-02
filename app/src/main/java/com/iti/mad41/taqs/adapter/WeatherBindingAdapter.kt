@@ -12,8 +12,10 @@ import com.iti.mad41.taqs.R
 import com.iti.mad41.taqs.data.model.DailyItem
 import com.iti.mad41.taqs.data.model.HourlyItem
 import com.iti.mad41.taqs.data.model.Temp
+import com.iti.mad41.taqs.data.model.WeatherNode
 import com.iti.mad41.taqs.util.IMAGE_BASE_URL
 import com.iti.mad41.taqs.util.getDay
+import com.iti.mad41.taqs.util.getDayWithDate
 import com.iti.mad41.taqs.util.getHour
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
@@ -29,6 +31,13 @@ fun setDailyItems(listView: RecyclerView, items: List<DailyItem>?) {
 fun setHourlyItems(listView: RecyclerView, items: List<HourlyItem>?) {
     items?.let {
         (listView.adapter as HourlyWeatherAdapter).submitList(items)
+    }
+}
+
+@BindingAdapter("app:favouriteItems")
+fun setFavouriteItems(listView: RecyclerView, items: List<WeatherNode>?) {
+    items?.let {
+        (listView.adapter as FavouritesWeatherAdapter).submitList(items)
     }
 }
 
@@ -56,9 +65,15 @@ fun getDay(txtView: TextView, seconds: Long){
 }
 
 @BindingAdapter("android:getHourFromDate")
-fun  getHour(txtView: TextView, seconds: Long){
+fun getHour(txtView: TextView, seconds: Long){
     val simpleDateFormat = SimpleDateFormat()
     txtView.text = simpleDateFormat.getHour(seconds)
+}
+
+@BindingAdapter("android:getDayWithDate")
+fun getDayWithDate(txtView: TextView, seconds: Long){
+    val simpleDateFormat = SimpleDateFormat()
+    txtView.text = simpleDateFormat.getDayWithDate(seconds)
 }
 
 @BindingAdapter("android:minMaxTemperature")

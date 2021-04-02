@@ -62,7 +62,10 @@ class MainActivity : AppCompatActivity() {
 
         navController = findNavController(R.id.nav_host_fragment)
         appBarConfiguration =
-            AppBarConfiguration.Builder(R.id.homeFragment, R.id.settingsFragment)
+            AppBarConfiguration.Builder(
+                    R.id.homeFragment,
+                    R.id.favouritesFragment,
+                    R.id.settingsFragment)
                 .setDrawerLayout(drawerLayout)
                 .build()
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -73,6 +76,11 @@ class MainActivity : AppCompatActivity() {
             when(destination.id) {
                 R.id.homeFragment -> {
                     supportActionBar?.setDisplayShowTitleEnabled(false)
+                    true
+                }
+                R.id.favouritesFragment -> {
+                    supportActionBar?.setDisplayShowTitleEnabled(true)
+                    supportActionBar?.title = getString(R.string.favourites_header_title)
                     true
                 }
                 R.id.settingsFragment -> {

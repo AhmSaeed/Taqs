@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
@@ -31,6 +28,7 @@ import com.iti.mad41.taqs.data.source.remote.WeatherRemoteDataSource
 import com.iti.mad41.taqs.databinding.SettingsFragmentBinding
 import com.iti.mad41.taqs.location.LocationViewModel
 import com.iti.mad41.taqs.location.LocationViewModelFactory
+import com.iti.mad41.taqs.util.ACCESS_LOCATION_WITH_GPS
 import com.iti.mad41.taqs.util.EventObserver
 import com.iti.mad41.taqs.util.setupSnackbar
 
@@ -62,9 +60,9 @@ class SettingsFragment : Fragment() {
         return settingsFragmentBinding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view?.setupSnackbar(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
         settingsFragmentBinding.lifecycleOwner = this.viewLifecycleOwner
 
         viewModel.requestLocationPermissionEvent.observe(viewLifecycleOwner, EventObserver {
@@ -78,11 +76,6 @@ class SettingsFragment : Fragment() {
         viewModel.reinitializeActivityEvent.observe(viewLifecycleOwner, EventObserver {
             restartMainActivity()
         })
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        view?.setupSnackbar(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
     }
 
     private fun restartMainActivity(){
@@ -134,8 +127,7 @@ class SettingsFragment : Fragment() {
             LocationViewModelFactory(requireContext())
         ).get(LocationViewModel::class.java)
         locationViewModel.getLocationLiveData().observe(this, Observer {
-            Log.i("HomeFragment", "requestLocationUpdates: ${it.latitude}")
-            Log.i("HomeFragment", "requestLocationUpdates: ${it.longitude}")
+            viewModel.saveLocation(it.latitude, it.longitude, it.address)
         })
     }
 

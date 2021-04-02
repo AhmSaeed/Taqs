@@ -33,4 +33,13 @@
     <string name="map_header_title">إختر موقع</string>
 
     <string name="cannot_access_current_location_msg">لم يتمكن طقس من معرفة موقعك الجغرافي، تأكد من تغير من الإعدادات</string>
+
+    <string name="confirm_location_message">تأكيد المكان الذي قمت بإختياره</string>
+    <string name="snack_bar_btn_Lbl">تأكيد</string>
+
+    <string name="no_internet_connection">أنت غير متصل بالإنترنت، يرجى التأكد من كونك متصل بالإنترنت.</string>
+
+    <string name="try_connect_to_network_btn_lbl">محاولة مرة أخري</string>
+
+    <string name="favourites_header_title">المفضلة</string>
 </resources>

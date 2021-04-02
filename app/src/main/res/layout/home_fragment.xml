@@ -7,6 +7,7 @@
 
     <data>
 
+        <import type="java.text.SimpleDateFormat"/>
         <variable
             name="homeView"
             type="com.iti.mad41.taqs.home.HomeViewModel" />
@@ -16,15 +17,38 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#f1f2f6">
+        android:background="@color/fadedWhite">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/home_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#f1f2f6"
+            android:background="@color/fadedWhite"
             tools:context=".home.HomeFragment">
 
+
+            <ImageView
+                android:id="@+id/no_network_image_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:src="@drawable/placeholder_bad_weather" />
+
+            <Button
+                android:id="@+id/try_again_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/rounded_btn"
+                android:text="@string/try_connect_to_network_btn_lbl"
+                android:textColor="#FFFFFF"
+                android:paddingHorizontal="20dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/no_network_image_placeholder" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/request_permission_card_view"
@@ -32,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="40dp"
-                android:visibility="visible"
+                android:visibility="gone"
 
                 app:cardElevation="0dp"
                 app:cardCornerRadius="25dp"
@@ -96,9 +120,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:text="Cairo"
                 android:textSize="20sp"
                 android:visibility="gone"
+                android:text="@{homeView.locationDetails.address}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -107,8 +131,8 @@
                 android:id="@+id/date_time_txt_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{homeView.item.current.dt.toString()}"
                 android:visibility="gone"
+                android:getDayWithDate="@{homeView.item.current.dt}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/city_txt_view" />
@@ -121,7 +145,7 @@
                 android:layout_marginTop="20dp"
                 android:visibility="gone"
                 app:cardCornerRadius="30sp"
-                app:cardElevation="0dp"
+                app:cardElevation="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/date_time_txt_view">
@@ -129,7 +153,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/main_gradient"
+                    android:background="@drawable/background"
                     android:paddingTop="15sp"
                     android:paddingBottom="40sp">
 
@@ -180,6 +204,7 @@
                 android:layout_marginEnd="136dp"
                 android:loadImage="@{homeView.item.current.weather[0].icon}"
                 android:visibility="gone"
+                android:elevation="31dp"
                 app:layout_constraintEnd_toEndOf="@+id/current_weather_card_view"
                 app:layout_constraintStart_toStartOf="@+id/current_weather_card_view"
                 app:layout_constraintTop_toTopOf="@+id/current_weather_card_view" />
@@ -233,8 +258,8 @@
 
                         <ImageView
                             android:id="@+id/humidity_icon"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_gravity="center"
                             android:src="@drawable/humidity_icon" />
 
