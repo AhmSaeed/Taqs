@@ -10,12 +10,11 @@ import com.iti.mad41.taqs.databinding.DayCardItemBinding
 import com.iti.mad41.taqs.databinding.HourCardItemBinding
 import com.iti.mad41.taqs.home.HomeViewModel
 
-class HourlyWeatherAdapter(private val viewModel: HomeViewModel):
+class HourlyWeatherAdapter:
         ListAdapter<HourlyItem, HourlyWeatherAdapter.HourlyItemHolder>(HourlyWeatherDiffCallback()) {
 
     class HourlyItemHolder(var binding: HourCardItemBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(viewModel: HomeViewModel, dailyItem: HourlyItem){
-            binding.homeView = viewModel
+        fun bind(dailyItem: HourlyItem){
             binding.hourly = dailyItem
             binding.executePendingBindings()
         }
@@ -38,7 +37,7 @@ class HourlyWeatherAdapter(private val viewModel: HomeViewModel):
     override fun onBindViewHolder(holder: HourlyItemHolder, position: Int) {
         val hourlyItem = getItem(position)
 
-        holder.bind(viewModel, hourlyItem)
+        holder.bind(hourlyItem)
     }
 }
 

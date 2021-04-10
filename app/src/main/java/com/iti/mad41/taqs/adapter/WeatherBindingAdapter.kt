@@ -13,6 +13,8 @@ import com.iti.mad41.taqs.data.model.DailyItem
 import com.iti.mad41.taqs.data.model.HourlyItem
 import com.iti.mad41.taqs.data.model.Temp
 import com.iti.mad41.taqs.data.model.WeatherNode
+import com.iti.mad41.taqs.data.source.preferences.SHARED_PREF_TEMPERATURE_UNIT
+import com.iti.mad41.taqs.settings.TemperatureUnit
 import com.iti.mad41.taqs.util.IMAGE_BASE_URL
 import com.iti.mad41.taqs.util.getDay
 import com.iti.mad41.taqs.util.getDayWithDate
@@ -23,7 +25,7 @@ import java.text.SimpleDateFormat
 @BindingAdapter("app:dailyItems")
 fun setDailyItems(listView: RecyclerView, items: List<DailyItem>?) {
     items?.let {
-        (listView.adapter as DailyWeatherAdapter).submitList(items.drop(0))
+        (listView.adapter as DailyWeatherAdapter).submitList(items.drop(1))
     }
 }
 
@@ -77,8 +79,33 @@ fun getDayWithDate(txtView: TextView, seconds: Long){
 }
 
 @BindingAdapter("android:minMaxTemperature")
-fun loadTemperature(txtView: TextView, temp: Temp){
-    val  sharedPreferences = txtView.getContext().getSharedPreferences("", Context.MODE_PRIVATE)
-    txtView.setText("${temp.max}/${temp.min} °K")
-    //${txtView.resources.getString(R.string.loading_weather_data_error)}
+fun minMaxTemperature(txtView: TextView, temp: Temp){
+    val preference: SharedPreferences = txtView.context.applicationContext.getSharedPreferences(
+            txtView.context.applicationContext.getString(R.string.taqs_preference_file), Context.MODE_PRIVATE)
+    var unit = preference?.getString(SHARED_PREF_TEMPERATURE_UNIT, TemperatureUnit.Kelvin.value)
+
+    txtView.setText("${temp.max}/${temp.min} °${getTemperatureUnit(unit!!)}")
+}
+
+@BindingAdapter("android:loadTemperature")
+fun loadTemperature(txtView: TextView, temp: String){
+    val preference: SharedPreferences = txtView.context.applicationContext.getSharedPreferences(
+            txtView.context.applicationContext.getString(R.string.taqs_preference_file), Context.MODE_PRIVATE)
+    var unit = preference?.getString(SHARED_PREF_TEMPERATURE_UNIT, TemperatureUnit.Kelvin.value)
+
+    txtView.setText("$temp °${getTemperatureUnit(unit!!)}")
+}
+
+fun getTemperatureUnit(unit: String): String{
+    return when (unit){
+        TemperatureUnit.Kelvin.value -> {
+            "K"
+        }
+        TemperatureUnit.Fahrenheit.value -> {
+            "F"
+        }
+        else -> {
+            "C"
+        }
+    }
 }

@@ -3,10 +3,7 @@ package com.iti.mad41.taqs.data.source.local
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.iti.mad41.taqs.data.model.Current
-import com.iti.mad41.taqs.data.model.DailyItem
-import com.iti.mad41.taqs.data.model.HourlyItem
-import com.iti.mad41.taqs.data.model.MinutelyItem
+import com.iti.mad41.taqs.data.model.*
 
 class Converters {
     @TypeConverter
@@ -16,7 +13,7 @@ class Converters {
 
     @TypeConverter
     fun convertStringToCurrent(current: String): Current {
-        val type = object : TypeToken<List<DailyItem>>() {}.type
+        val type = object : TypeToken<Current>() {}.type
         return Gson().fromJson(current, type)
     }
 
@@ -43,13 +40,13 @@ class Converters {
     }
 
     @TypeConverter
-    fun convertListOfMinutelyItemsToString(minutelyItems: List<MinutelyItem>): String?{
-        return Gson().toJson(minutelyItems)
+    fun convertListOfAlertItemsToString(alertItems: List<AlertsItem?>?): String?{
+        return Gson().toJson(alertItems)
     }
 
     @TypeConverter
-    fun convertStringToListOfMinutelyItems(minutelyItems: String): List<MinutelyItem> {
-        val type = object : TypeToken<List<MinutelyItem>>() {}.type
-        return Gson().fromJson(minutelyItems, type)
+    fun convertStringToListOfAlertItems(alertItems: String): List<AlertsItem?>? {
+        val type = object : TypeToken<List<AlertsItem>>() {}.type
+        return Gson().fromJson(alertItems, type)
     }
 }

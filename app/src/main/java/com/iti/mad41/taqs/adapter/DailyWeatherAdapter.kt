@@ -11,12 +11,11 @@ import com.iti.mad41.taqs.databinding.DayCardItemBinding
 import com.iti.mad41.taqs.home.HomeViewModel
 import java.text.SimpleDateFormat
 
-class DailyWeatherAdapter(private val viewModel: HomeViewModel):
+class DailyWeatherAdapter:
         ListAdapter<DailyItem, DailyWeatherAdapter.DailyItemHolder>(DailyWeatherDiffCallback()) {
 
     class DailyItemHolder(var binding: DayCardItemBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(viewModel: HomeViewModel, dailyItem: DailyItem){
-            binding.homeView = viewModel
+        fun bind(dailyItem: DailyItem){
             binding.daily = dailyItem
             binding.executePendingBindings()
         }
@@ -39,7 +38,7 @@ class DailyWeatherAdapter(private val viewModel: HomeViewModel):
     override fun onBindViewHolder(holder: DailyItemHolder, position: Int) {
         val dailyItem = getItem(position)
 
-        holder.bind(viewModel, dailyItem)
+        holder.bind(dailyItem)
     }
 }
 

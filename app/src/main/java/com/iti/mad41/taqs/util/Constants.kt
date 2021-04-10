@@ -24,3 +24,7 @@ const val FAHRENHEIT = "fahrenheit"
 
 const val METER_PER_SECOND = "meterPerSecond"
 const val MILE_PER_HOUR = "milePerHour"
+
+const val WEATHER_STATUS_CURRENT = "Current"
+const val WEATHER_STATUS_FAVOURITES = "Favourite"
+const val WEATHER_STATUS_ALERT = "Alert"

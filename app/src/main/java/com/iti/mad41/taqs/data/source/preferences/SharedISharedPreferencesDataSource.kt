@@ -2,10 +2,8 @@ package com.iti.mad41.taqs.data.source.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import com.iti.mad41.taqs.R
 import com.iti.mad41.taqs.data.model.LocationDetails
-import com.iti.mad41.taqs.util.ENGLISH
 
 const val SHARED_PREF_ACCESS_LOCATION_TYPE_KEY  = "sharedPreferencesAccessLocationType"
 const val SHARED_PREF_LANGUAGE_KEY  = "sharedPreferencesLanguage"
@@ -16,9 +14,9 @@ const val SHARED_PREF_MEASUREMENT_UNIT = "sharedPreferencesMeasurementUnit"
 const val SHARED_PREF_TEMPERATURE_UNIT = "sharedPreferencesTemperatureUnit"
 const val SHARED_PREF_WIND_SPEED_UNIT = "sharedPreferencesWindSpeedUnit"
 
-class SharedPreferencesDataSource(
+class SharedISharedPreferencesDataSource(
     context: Context
-): PreferencesDataSource {
+): ISharedPreferencesDataSource {
     private val appContext = context.applicationContext
 
     private val preference: SharedPreferences?

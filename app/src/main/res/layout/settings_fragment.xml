@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="#f1f2f6"
+        android:background="@color/fadedWhite"
         tools:context="settings.SettingsFragment">
 
         <LinearLayout

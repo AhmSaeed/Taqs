@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -22,14 +23,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import com.iti.mad41.taqs.R
-import com.iti.mad41.taqs.data.repo.DefaultWeatherRepository
-import com.iti.mad41.taqs.data.repo.WeatherRepository
-import com.iti.mad41.taqs.data.source.preferences.PreferencesDataSource
-import com.iti.mad41.taqs.data.source.preferences.SharedPreferencesDataSource
-import com.iti.mad41.taqs.data.source.remote.WeatherRemoteDataSource
 import com.iti.mad41.taqs.location.LocationViewModel
 import com.iti.mad41.taqs.location.LocationViewModelFactory
-import com.iti.mad41.taqs.util.ACCESS_LOCATION_WITH_MAP
 import com.iti.mad41.taqs.util.setupSnackbar
 
 class MapsFragment : Fragment() {
@@ -43,13 +38,7 @@ class MapsFragment : Fragment() {
 
     private lateinit var mapFragment: SupportMapFragment
 
-    private lateinit var viewModel: MapsViewModel
-
-    private lateinit var weatherRemoteDataSource: WeatherRemoteDataSource
-
-    private lateinit var preferencesDataSource: PreferencesDataSource
-
-    private lateinit var weatherRepository: WeatherRepository
+    private val sharedMapsViewModel: SharedMapsViewModel by activityViewModels()
 
     private val onMapReadyCallback = OnMapReadyCallback { googleMap ->
         /**
@@ -61,13 +50,14 @@ class MapsFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
+        sharedMapsViewModel.hasUpdate(false)
         googleMap.clear()
         var latLong = LatLng(
             latitude,
             longitude
         )
         var address = getLocationGeoCoding(latitude, longitude)
-        viewModel.setLocationDetails(latitude, longitude, address)
+        sharedMapsViewModel.setLocationDetails(latitude, longitude, address)
         googleMap.addMarker(MarkerOptions().position(latLong))
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLong))
         googleMap.uiSettings.isZoomControlsEnabled = true
@@ -77,8 +67,8 @@ class MapsFragment : Fragment() {
             var address = getLocationGeoCoding(it.latitude, it.longitude)
             googleMap.addMarker(MarkerOptions().position(it).title(address))
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(it))
-            viewModel.setLocationDetails(it.latitude, it.longitude, address)
-            viewModel.showSnackbarMessage(R.string.confirm_location_message)
+            sharedMapsViewModel.setLocationDetails(it.latitude, it.longitude, address)
+            sharedMapsViewModel.showSnackbarMessage(R.string.confirm_location_message)
         }
     }
 
@@ -86,7 +76,7 @@ class MapsFragment : Fragment() {
         val geoCoder = Geocoder(context)
         val locationsResult = geoCoder.getFromLocation(lat, long, MAX_RESULT_VALUE)
 
-        return if(locationsResult != null && locationsResult.size != 0) locationsResult[0].adminArea else ""
+        return if(locationsResult[0].adminArea != null) locationsResult[0].adminArea else ""
     }
 
     override fun onCreateView(
@@ -101,16 +91,9 @@ class MapsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         prepareRequestLocationPermission()
 
-        weatherRemoteDataSource = WeatherRemoteDataSource()
-        preferencesDataSource = SharedPreferencesDataSource(requireContext())
-        weatherRepository = DefaultWeatherRepository(weatherRemoteDataSource, preferencesDataSource)
-        viewModel = ViewModelProviders.of(this, MapsViewModelFactory(weatherRepository)).get(MapsViewModel::class.java)
-
-        view?.setupSnackbar(this, viewModel.snackbarText, Snackbar.LENGTH_LONG, object: View.OnClickListener {
-            override fun onClick(view: View?) {
-                viewModel.saveLocationIncludingType(ACCESS_LOCATION_WITH_MAP)
-                findNavController().popBackStack()
-            }
+        view?.setupSnackbar(this, sharedMapsViewModel.snackbarText, Snackbar.LENGTH_LONG, {
+            sharedMapsViewModel.hasUpdate(true)
+            findNavController().popBackStack()
         })
 
         mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment

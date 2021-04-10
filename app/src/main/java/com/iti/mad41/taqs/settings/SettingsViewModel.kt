@@ -1,41 +1,37 @@
 package com.iti.mad41.taqs.settings
 
-import android.app.Application
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.util.Log
 import androidx.annotation.StringRes
 import androidx.lifecycle.*
 import com.iti.mad41.taqs.data.model.LocationDetails
-import com.iti.mad41.taqs.data.repo.WeatherRepository
+import com.iti.mad41.taqs.data.repo.IDefaultWeatherRepository
 import com.iti.mad41.taqs.util.ACCESS_LOCATION_WITH_GPS
 import com.iti.mad41.taqs.util.Event
 import kotlinx.coroutines.launch
 import java.util.*
 
 class SettingsViewModel(
-        application: Application,
-        private val weatherRepository: WeatherRepository
-): AndroidViewModel(application) {
+        private val IDefaultWeatherRepository: IDefaultWeatherRepository
+): ViewModel() {
     private val _forceUpdate = MutableLiveData<Boolean>(false)
 
     private val _accessLocationType = _forceUpdate.map{
-        weatherRepository.getSelectedAccessLocationType(AccessLocationType.GPS.value)!!
+        IDefaultWeatherRepository.getSelectedAccessLocationType(AccessLocationType.GPS.value)!!
     } as MutableLiveData<String>
     val accessLocationType: LiveData<String> = _accessLocationType
 
     private val _language = _forceUpdate.map {
-        weatherRepository.getSelectedLanguage(Language.EN.value)!!
+        IDefaultWeatherRepository.getSelectedLanguage(Language.EN.value)!!
     } as MutableLiveData<String>
     val language: LiveData<String> = _language
 
     private val _temperatureUnit = _forceUpdate.map {
-        weatherRepository.getTemperatureUnit(TemperatureUnit.Kelvin.value)!!
+        IDefaultWeatherRepository.getTemperatureUnit(TemperatureUnit.Kelvin.value)!!
     } as MutableLiveData<String>
     val temperatureUnit: LiveData<String> = _temperatureUnit
 
     private val _windSpeedUnit = _forceUpdate.map {
-        weatherRepository.getWindSpeedUnit(WindSpeedUnit.MPS.value)!!
+        IDefaultWeatherRepository.getWindSpeedUnit(WindSpeedUnit.MPS.value)!!
     } as MutableLiveData<String>
     val windSpeedUnit: LiveData<String> = _windSpeedUnit
 
@@ -48,12 +44,12 @@ class SettingsViewModel(
     private val _reinitializeActivityEvent = MutableLiveData<Event<Unit>>()
     val reinitializeActivityEvent: LiveData<Event<Unit>> = _reinitializeActivityEvent
 
-    private val _snackbarText = MutableLiveData<Int>()
-    val snackbarText: LiveData<Int> = _snackbarText
+    private val _snackbarText = MutableLiveData<Event<Int>>()
+    val snackbarText: LiveData<Event<Int>> = _snackbarText
 
     init {
         loadData()
-        weatherRepository.getLocation()
+        IDefaultWeatherRepository.getLocation()
     }
 
     private fun loadData(){
@@ -110,32 +106,32 @@ class SettingsViewModel(
 
     fun saveAccessLocationType(type: String){
         viewModelScope.launch {
-            weatherRepository.saveSelectedAccessLocationType(type)
+            IDefaultWeatherRepository.saveSelectedAccessLocationType(type)
         }
     }
 
     fun saveLocation(lat: Double, long: Double, city: String){
         viewModelScope.launch {
-            weatherRepository.saveLocation(lat, long, city)
+            IDefaultWeatherRepository.saveLocation(lat, long, city)
         }
     }
 
     fun saveLanguage(lang: String){
         viewModelScope.launch {
-            weatherRepository.saveSelectedLanguage(lang)
+            IDefaultWeatherRepository.saveSelectedLanguage(lang)
         }
         reattachBaseContext()
     }
 
     fun saveTemperatureUnit(type: String){
         viewModelScope.launch {
-            weatherRepository.saveTemperatureUnit(type)
+            IDefaultWeatherRepository.saveTemperatureUnit(type)
         }
     }
 
     fun saveWindSpeedUnit(type: String){
         viewModelScope.launch {
-            weatherRepository.saveWindSpeedUnit(type)
+            IDefaultWeatherRepository.saveWindSpeedUnit(type)
         }
     }
 
@@ -144,12 +140,12 @@ class SettingsViewModel(
     }
 
     fun showSnackbarMessage(@StringRes message: Int) {
-        _snackbarText.value = message
+        _snackbarText.value = Event(message)
     }
 }
 
-class SettingsViewModelFactory(val application: Application, val repository: WeatherRepository) : ViewModelProvider.NewInstanceFactory(){
+class SettingsViewModelFactory(val repositoryIDefault: IDefaultWeatherRepository) : ViewModelProvider.NewInstanceFactory(){
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return SettingsViewModel(application, repository)  as T
+        return SettingsViewModel(repositoryIDefault)  as T
     }
 }

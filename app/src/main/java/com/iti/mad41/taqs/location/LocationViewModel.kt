@@ -1,13 +1,8 @@
 package com.iti.mad41.taqs.location
 
-import android.app.Application
 import android.content.Context
-import android.view.View
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.iti.mad41.taqs.data.repo.WeatherRepository
-import com.iti.mad41.taqs.home.HomeViewModel
 
 class LocationViewModel(context: Context): ViewModel() {
     private val locationLiveData = LocationLiveData(context)

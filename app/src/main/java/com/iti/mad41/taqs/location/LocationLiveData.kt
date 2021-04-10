@@ -20,8 +20,10 @@ class LocationLiveData(val context: Context): LiveData<LocationDetails>() {
     @SuppressLint("MissingPermission")
     override fun onActive() {
         super.onActive()
+        Log.i("requestLocationUpdates", "fusedLocationClient: onActive")
         fusedLocationClient.lastLocation.addOnSuccessListener {
-            location: Location -> location.also{
+            location: Location? -> location?.also{
+                Log.i("requestLocationUpdates", "fusedLocationClient: ${it}")
                 setLocationData(it)
             }
         }
@@ -30,15 +32,15 @@ class LocationLiveData(val context: Context): LiveData<LocationDetails>() {
 
     override fun onInactive() {
         super.onInactive()
-        fusedLocationClient.removeLocationUpdates(locationCallack)
+        fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
     @SuppressLint("MissingPermission")
     private fun startLocationUpdates(){
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallack, null)
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
     }
 
-    private val locationCallack = object : LocationCallback() {
+    private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(locationsResult: LocationResult?) {
             super.onLocationResult(locationsResult)
 
@@ -57,8 +59,10 @@ class LocationLiveData(val context: Context): LiveData<LocationDetails>() {
         return if(locationsResult.size != 0) locationsResult[0].adminArea else ""
     }
 
-    private fun setLocationData(location: Location){
+    private fun setLocationData(location: Location?){
+        Log.i("requestLocationUpdates", "fusedLocationClient: setLocationData")
         if(location != null){
+            Log.i("requestLocationUpdates", "fusedLocationClient: location != ${location}")
             value = LocationDetails(
                 location.longitude,
                 location.latitude,

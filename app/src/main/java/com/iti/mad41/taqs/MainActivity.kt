@@ -1,38 +1,21 @@
 package com.iti.mad41.taqs
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.MenuItem
-import android.view.View
 import androidx.annotation.RequiresApi
-import androidx.appcompat.widget.Toolbar
-import androidx.core.app.ActivityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.add
-import androidx.fragment.app.commit
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
-import com.iti.mad41.taqs.data.repo.DefaultWeatherRepository
-import com.iti.mad41.taqs.data.repo.WeatherRepository
-import com.iti.mad41.taqs.data.source.WeatherDataSource
-import com.iti.mad41.taqs.data.source.preferences.PreferencesDataSource
-import com.iti.mad41.taqs.data.source.preferences.SharedPreferencesDataSource
-import com.iti.mad41.taqs.home.HomeFragment
+import com.iti.mad41.taqs.data.source.preferences.ISharedPreferencesDataSource
+import com.iti.mad41.taqs.data.source.preferences.SharedISharedPreferencesDataSource
 import com.iti.mad41.taqs.location.LocationViewModel
 import com.iti.mad41.taqs.location.LocationViewModelFactory
 import com.iti.mad41.taqs.settings.Language
@@ -44,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
-    private lateinit var preferencesDataSource: PreferencesDataSource
+    private lateinit var ISharedPreferencesDataSource: ISharedPreferencesDataSource
 
     lateinit var locationViewModel: LocationViewModel
 
@@ -94,8 +77,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun attachBaseContext(newBase: Context?) {
-        preferencesDataSource = SharedPreferencesDataSource(newBase!!)
-        val language: String = preferencesDataSource.getSelectedLanguage(Language.EN.value)!!
+        ISharedPreferencesDataSource = SharedISharedPreferencesDataSource(newBase!!)
+        val language: String = ISharedPreferencesDataSource.getSelectedLanguage(Language.EN.value)!!
         super.attachBaseContext(MyContextWrapper.wrap(newBase, language))
     }
 

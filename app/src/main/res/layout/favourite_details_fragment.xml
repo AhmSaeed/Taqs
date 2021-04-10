@@ -9,8 +9,8 @@
 
         <import type="java.text.SimpleDateFormat"/>
         <variable
-            name="homeView"
-            type="com.iti.mad41.taqs.home.HomeViewModel" />
+            name="favouriteDetailsView"
+            type="com.iti.mad41.taqs.favouriteDetails.FavouriteDetailsViewModel" />
 
     </data>
 
@@ -26,103 +26,14 @@
             android:background="@color/fadedWhite"
             tools:context=".home.HomeFragment">
 
-
-            <ImageView
-                android:id="@+id/no_network_image_placeholder"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                android:src="@drawable/placeholder_bad_weather" />
-
-            <Button
-                android:id="@+id/try_again_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/rounded_btn"
-                android:text="@string/try_connect_to_network_btn_lbl"
-                android:textColor="#FFFFFF"
-                android:paddingHorizontal="20dp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/no_network_image_placeholder" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/request_permission_card_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="40dp"
-                android:visibility="gone"
-
-                app:cardElevation="0dp"
-                app:cardCornerRadius="25dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:id="@+id/textView7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:paddingStart="10dp"
-                        android:text="@string/no_location_selected_alert"
-                        android:textSize="18sp"
-                        app:layout_constraintStart_toEndOf="@+id/imageView4"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/textView8"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="@string/ask_for_access_location"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-                    <ImageView
-                        android:id="@+id/imageView4"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView7"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView7"
-                        android:src="@drawable/pin_icon" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <Button
-                android:id="@+id/request_permission_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_btn"
-                android:text="@string/allow_btn"
-                android:textColor="#FFFFFF"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="@+id/request_permission_card_view"
-                app:layout_constraintTop_toBottomOf="@+id/request_permission_card_view" />
-
-
             <TextView
                 android:id="@+id/city_txt_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
                 android:textSize="20sp"
-                android:visibility="gone"
-                android:text="@{homeView.locationDetails.address}"
+                android:visibility="visible"
+                android:text="@{favouriteDetailsView.weatherNode.address}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -131,8 +42,8 @@
                 android:id="@+id/date_time_txt_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:getDayWithDate="@{homeView.item.current.dt}"
+                android:visibility="visible"
+                android:getDayWithDate="@{favouriteDetailsView.weatherNode.current.dt}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/city_txt_view" />
@@ -143,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:cardCornerRadius="30sp"
                 app:cardElevation="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -161,7 +72,7 @@
                         android:id="@+id/temp_txt_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{homeView.item.current.temp.toString()}"
+                        android:text="@{favouriteDetailsView.weatherNode.current.temp.toString()}"
                         android:textColor="#FFFFFF"
                         android:textSize="80sp"
                         android:textStyle="bold"
@@ -173,7 +84,7 @@
                         android:id="@+id/weather_main_txt_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{homeView.item.current.weather[0].description}"
+                        android:text="@{favouriteDetailsView.weatherNode.current.weather[0].description}"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -185,7 +96,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:text="@{homeView.getTemperatureUnit()}"
+                        android:text="@{favouriteDetailsView.getTemperatureUnit()}"
                         android:textColor="#FFFFFF"
                         android:textSize="40sp"
                         app:layout_constraintStart_toEndOf="@+id/temp_txt_view"
@@ -202,8 +113,8 @@
                 android:layout_marginStart="135dp"
                 android:layout_marginTop="100dp"
                 android:layout_marginEnd="136dp"
-                android:loadImage="@{homeView.item.current.weather[0].icon}"
-                android:visibility="gone"
+                android:loadImage="@{favouriteDetailsView.weatherNode.current.weather[0].icon}"
+                android:visibility="visible"
                 android:elevation="31dp"
                 app:layout_constraintEnd_toEndOf="@+id/current_weather_card_view"
                 app:layout_constraintStart_toStartOf="@+id/current_weather_card_view"
@@ -216,8 +127,8 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 android:paddingHorizontal="10dp"
-                android:visibility="gone"
-                app:hourlyItems="@{homeView.item.hourly}"
+                android:visibility="visible"
+                app:hourlyItems="@{favouriteDetailsView.weatherNode.hourly}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@+id/current_weather_extra_card_view" />
 
@@ -228,8 +139,8 @@
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal"
                 android:paddingHorizontal="10dp"
-                android:visibility="gone"
-                app:dailyItems="@{homeView.item.daily}"
+                android:visibility="visible"
+                app:dailyItems="@{favouriteDetailsView.weatherNode.daily}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@+id/hourly_weather_list" />
 
@@ -238,7 +149,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:cardCornerRadius="25dp"
                 app:cardElevation="0dp"
                 app:layout_constraintTop_toBottomOf="@+id/current_weather_icon"
@@ -268,7 +179,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="@{homeView.item.current.humidity.toString()}" />
+                            android:text="@{favouriteDetailsView.weatherNode.current.humidity.toString()}" />
 
                     </LinearLayout>
 
@@ -290,7 +201,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="@{homeView.item.current.windSpeed.toString()}" />
+                            android:text="@{favouriteDetailsView.weatherNode.current.windSpeed.toString()}" />
 
                     </LinearLayout>
 
@@ -312,7 +223,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="@{homeView.item.current.pressure.toString()}" />
+                            android:text="@{favouriteDetailsView.weatherNode.current.pressure.toString()}" />
 
                     </LinearLayout>
 

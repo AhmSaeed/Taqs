@@ -50,7 +50,7 @@ class FavouriteWeatherDiffCallback: DiffUtil.ItemCallback<WeatherNode>(){
     }
 
     override fun areContentsTheSame(oldItem: WeatherNode, newItem: WeatherNode): Boolean {
-        return oldItem == newItem
+        return oldItem.id == newItem.id
     }
 
 }

@@ -18,14 +18,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
+        android:onClick="@{() -> favouriteView.openFavouriteItemDetails(favouriteItem.id)}"
         app:cardCornerRadius="25dp"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/background"
+            android:background="@drawable/main_gradient"
             android:padding="20dp">
 
             <TextView
@@ -36,6 +37,8 @@
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                android:text="@{favouriteItem.address}"
+                android:paddingBottom="15dp"
                 app:layout_constraintStart_toEndOf="@+id/weather_icon"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Address" />
@@ -44,6 +47,7 @@
                 android:id="@+id/weather_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:loadImage="@{favouriteItem.current.weather[0].icon}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -55,15 +59,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:textColor="#FFFFFF"
+                android:paddingTop="10dp"
+                android:text="@{favouriteItem.current.weather[0].description}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/weather_icon"
                 tools:text="Description" />
 
             <ImageView
                 android:id="@+id/delete_icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/delete_icon"
+                android:onClick="@{() -> favouriteView.onDeleteClick(favouriteItem.id)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

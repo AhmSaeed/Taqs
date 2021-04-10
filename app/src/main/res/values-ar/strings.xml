@@ -42,4 +42,10 @@
     <string name="try_connect_to_network_btn_lbl">محاولة مرة أخري</string>
 
     <string name="favourites_header_title">المفضلة</string>
+
+    <string name="delete_confirmation_message">هل أنت  متأكد من مسح ذلك العنصر؟</string>
+
+    <string name="favourite_details_header_title">التفاصيل</string>
+    <string name="no_data_favourites_fragment_message">لا يوجد أماكن مفضلة</string>
+    <string name="search_view_placeholder">بحث...</string>
 </resources>

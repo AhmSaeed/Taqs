@@ -16,12 +16,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
+import com.iti.mad41.taqs.ServiceLocator
 import com.iti.mad41.taqs.adapter.DailyWeatherAdapter
 import com.iti.mad41.taqs.adapter.HourlyWeatherAdapter
-import com.iti.mad41.taqs.data.repo.DefaultWeatherRepository
-import com.iti.mad41.taqs.data.repo.WeatherRepository
-import com.iti.mad41.taqs.data.source.preferences.PreferencesDataSource
-import com.iti.mad41.taqs.data.source.preferences.SharedPreferencesDataSource
+import com.iti.mad41.taqs.data.source.preferences.ISharedPreferencesDataSource
+import com.iti.mad41.taqs.data.source.preferences.SharedISharedPreferencesDataSource
 import com.iti.mad41.taqs.data.source.remote.WeatherRemoteDataSource
 import com.iti.mad41.taqs.databinding.HomeFragmentBinding
 import com.iti.mad41.taqs.location.LocationViewModel
@@ -37,19 +36,10 @@ class HomeFragment : Fragment() {
     private lateinit var dailyWeatherAdapter: DailyWeatherAdapter
     private lateinit var hourlyWeatherAdapter: HourlyWeatherAdapter
 
-    private lateinit var weatherRemoteDataSource: WeatherRemoteDataSource
-
-    private lateinit var preferencesDataSource: PreferencesDataSource
-
-    private lateinit var weatherRepository: WeatherRepository
-
     private lateinit var locationViewModel: LocationViewModel
 
     private val viewModel by viewModels<HomeViewModel>{
-        weatherRemoteDataSource = WeatherRemoteDataSource()
-        preferencesDataSource = SharedPreferencesDataSource(requireContext())
-        weatherRepository = DefaultWeatherRepository(weatherRemoteDataSource, preferencesDataSource)
-        HomeViewModelFactory(requireActivity().application, weatherRepository)
+        HomeViewModelFactory(requireActivity().application, ServiceLocator.provideRepository(requireActivity().application))
     }
 
     override fun onCreateView(
@@ -119,7 +109,7 @@ class HomeFragment : Fragment() {
     private fun setupDailyListAdapter(){
         val viewModel = homeFragmentBinding.homeView
         if(viewModel != null) {
-            dailyWeatherAdapter = DailyWeatherAdapter(viewModel)
+            dailyWeatherAdapter = DailyWeatherAdapter()
             homeFragmentBinding.dailyWeatherList.adapter = dailyWeatherAdapter
         } else {
             Log.i("Home", "setupDailyListAdapter: ")
@@ -129,7 +119,7 @@ class HomeFragment : Fragment() {
     private fun setupHourlyListAdapter(){
         val viewModel = homeFragmentBinding.homeView
         if(viewModel != null) {
-            hourlyWeatherAdapter = HourlyWeatherAdapter(viewModel)
+            hourlyWeatherAdapter = HourlyWeatherAdapter()
             homeFragmentBinding.hourlyWeatherList.adapter = hourlyWeatherAdapter
         } else {
             Log.i("Home", "setupHourlyListAdapter: ")
@@ -139,7 +129,9 @@ class HomeFragment : Fragment() {
     private fun requestLocationUpdates(){
         locationViewModel = ViewModelProviders.of(this,
             LocationViewModelFactory(requireContext())).get(LocationViewModel::class.java)
+        Log.i("requestLocationUpdates", "first")
         locationViewModel.getLocationLiveData().observe(viewLifecycleOwner, Observer {
+            Log.i("requestLocationUpdates", "requestLocationUpdates: ${it}")
             viewModel.saveLocation(it.latitude, it.longitude, it.address)
             homeFragmentBinding.cityTxtView.text = it.address
         })

@@ -6,25 +6,22 @@ import android.net.ConnectivityManager
 import android.net.ConnectivityManager.*
 import android.net.NetworkCapabilities.*
 import android.os.Build
-import android.util.Log
 import androidx.lifecycle.*
 import com.iti.mad41.taqs.R
 import com.iti.mad41.taqs.TaqsApplication
 import com.iti.mad41.taqs.data.model.LocationDetails
 import com.iti.mad41.taqs.data.model.WeatherNode
-import com.iti.mad41.taqs.data.repo.WeatherRepository
+import com.iti.mad41.taqs.data.repo.IDefaultWeatherRepository
 import com.iti.mad41.taqs.data.source.Result
 import com.iti.mad41.taqs.data.source.Result.Success
 import com.iti.mad41.taqs.settings.AccessLocationType
-import com.iti.mad41.taqs.util.ARABIC
-import com.iti.mad41.taqs.util.ENGLISH
-import com.iti.mad41.taqs.util.IMPERIAL
-import com.iti.mad41.taqs.util.MINUTELY
+import com.iti.mad41.taqs.settings.TemperatureUnit
+import com.iti.mad41.taqs.util.Event
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
         application: Application,
-        private val weatherRepository: WeatherRepository
+        private val defaultWeatherRepository: IDefaultWeatherRepository
 ) : AndroidViewModel(application) {
 
     private val _forceUpdate = MutableLiveData<Boolean>(false)
@@ -34,7 +31,7 @@ class HomeViewModel(
             if(hasInternetConnection()){
                 _dataLoading.value = true
                 viewModelScope.launch {
-                    weatherRepository.refreshWeatherData()
+                    defaultWeatherRepository.refreshWeatherData()
                     _dataLoading.value = false
                 }
             } else {
@@ -42,7 +39,7 @@ class HomeViewModel(
                 _isDataLoadingError.value = true
             }
         }
-        weatherRepository.observeWeatherData().switchMap { handleWeatherResult(it) }
+        defaultWeatherRepository.observeRemoteWeatherData().switchMap { handleWeatherResult(it) }
     }
     val item: LiveData<WeatherNode> = _item
 
@@ -53,17 +50,17 @@ class HomeViewModel(
     val isDataLoadingError: LiveData<Boolean> = _isDataLoadingError
 
     private val _accessLocationType = _forceUpdate.map{
-        weatherRepository.getSelectedAccessLocationType(AccessLocationType.GPS.value)!!
+        defaultWeatherRepository.getSelectedAccessLocationType(AccessLocationType.GPS.value)!!
     } as MutableLiveData<String>
     val accessLocationType: LiveData<String> = _accessLocationType
 
     private val _locationDetails = _forceUpdate.map{
-        weatherRepository.getLocation()
+        defaultWeatherRepository.getLocation()
     } as MutableLiveData<LocationDetails>
     val locationDetails: LiveData<LocationDetails> = _locationDetails
 
-    private val _snackbarText = MutableLiveData<Int>()
-    val snackbarText: LiveData<Int> = _snackbarText
+    private val _snackbarText = MutableLiveData<Event<Int>>()
+    val snackbarText: LiveData<Event<Int>> = _snackbarText
 
     init {
         loadWeatherData(true)
@@ -88,12 +85,26 @@ class HomeViewModel(
 
     fun saveLocation(lat: Double, long: Double, city: String){
         viewModelScope.launch {
-            weatherRepository.saveLocation(lat, long, city)
+            defaultWeatherRepository.saveLocation(lat, long, city)
+        }
+    }
+
+    fun getTemperatureUnit(): String{
+        return when (defaultWeatherRepository.getTemperatureUnit(TemperatureUnit.Kelvin.value)){
+            TemperatureUnit.Kelvin.value -> {
+                "°K"
+            }
+            TemperatureUnit.Fahrenheit.value -> {
+                "°F"
+            }
+            else -> {
+                "°C"
+            }
         }
     }
 
     private fun showSnackBarMessage(message: Int){
-        _snackbarText.value = message
+        _snackbarText.value = Event(message)
     }
 
     private fun hasInternetConnection(): Boolean{
@@ -125,9 +136,9 @@ class HomeViewModel(
 
 class HomeViewModelFactory(
     val application: Application,
-    val repository: WeatherRepository
+    val defaultWeatherRepository: IDefaultWeatherRepository
 ) : ViewModelProvider.NewInstanceFactory(){
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return HomeViewModel(application, repository)  as T
+        return HomeViewModel(application, defaultWeatherRepository)  as T
     }
 }

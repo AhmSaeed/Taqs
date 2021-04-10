@@ -1,6 +1,7 @@
 package com.iti.mad41.taqs.util
 
 import android.view.View
+import android.widget.SearchView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -20,7 +21,7 @@ fun View.showSnackbar(snackbarText: String, timeLength: Int) {
 
 fun View.showSnackbarWithButton(snackbarText: String, timeLength: Int, btnListener : View.OnClickListener) {
     var snackBar = Snackbar.make(this, snackbarText, timeLength)
-    snackBar.setAction(resources.getString(R.string.snack_bar_btn_Lbl), btnListener)
+    snackBar.setAction(resources.getString(R.string.snack_bar_btn_Lbl), btnListener).setActionTextColor(resources.getColor(R.color.white))
     var snackBarView = snackBar.view
     snackBarView.setBackgroundColor(resources.getColor(R.color.blue))
     snackBar.show()
@@ -31,17 +32,31 @@ fun View.showSnackbarWithButton(snackbarText: String, timeLength: Int, btnListen
  */
 fun View.setupSnackbar(
         lifecycleOwner: LifecycleOwner,
-        snackbarEvent: LiveData<Int>,
+        snackbarEvent: LiveData<Event<Int>>,
         timeLength: Int,
         actionListener: View.OnClickListener? = null
 ) {
 
-    snackbarEvent.observe(lifecycleOwner, Observer { event ->
+    snackbarEvent.observe(lifecycleOwner, EventObserver { event ->
 
         if(actionListener != null)
             showSnackbarWithButton(context.getString(event), timeLength, actionListener)
         else
             showSnackbar(context.getString(event), timeLength)
+
+    })
+}
+
+inline fun SearchView.onQueryTextChanged(crossinline listener: (String) -> Unit) {
+    this.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return true
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            listener(newText.orEmpty())
+            return true
+        }
 
     })
 }

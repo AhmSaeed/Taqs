@@ -2,7 +2,7 @@ package com.iti.mad41.taqs.data.source.preferences
 
 import com.iti.mad41.taqs.data.model.LocationDetails
 
-interface PreferencesDataSource {
+interface ISharedPreferencesDataSource {
     fun saveLocation(lat: Double, long: Double, city: String)
     fun getLocation(): LocationDetails
 

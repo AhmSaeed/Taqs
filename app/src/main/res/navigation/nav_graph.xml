@@ -32,6 +32,26 @@
         android:label="FavouritesFragment" >
         <action
             android:id="@+id/action_favouritesFragment_to_mapsFragment"
-            app:destination="@id/mapsFragment" />
+            app:destination="@id/mapsFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_favouritesFragment_to_favouriteDetailsFragment"
+            app:destination="@id/favouriteDetailsFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/favouriteDetailsFragment"
+        android:name="com.iti.mad41.taqs.favouriteDetails.FavouriteDetailsFragment"
+        android:label="@string/favourite_details_header_title">
+        <argument
+            android:name="weatherNodeId"
+            app:argType="integer"
+            android:defaultValue="0"/>
     </fragment>
 </navigation>

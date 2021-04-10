@@ -4,11 +4,13 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -20,15 +22,14 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.snackbar.Snackbar
 import com.iti.mad41.taqs.MainActivity
 import com.iti.mad41.taqs.R
-import com.iti.mad41.taqs.data.repo.DefaultWeatherRepository
-import com.iti.mad41.taqs.data.repo.WeatherRepository
-import com.iti.mad41.taqs.data.source.preferences.PreferencesDataSource
-import com.iti.mad41.taqs.data.source.preferences.SharedPreferencesDataSource
+import com.iti.mad41.taqs.ServiceLocator
+import com.iti.mad41.taqs.data.source.preferences.ISharedPreferencesDataSource
+import com.iti.mad41.taqs.data.source.preferences.SharedISharedPreferencesDataSource
 import com.iti.mad41.taqs.data.source.remote.WeatherRemoteDataSource
 import com.iti.mad41.taqs.databinding.SettingsFragmentBinding
 import com.iti.mad41.taqs.location.LocationViewModel
 import com.iti.mad41.taqs.location.LocationViewModelFactory
-import com.iti.mad41.taqs.util.ACCESS_LOCATION_WITH_GPS
+import com.iti.mad41.taqs.map.SharedMapsViewModel
 import com.iti.mad41.taqs.util.EventObserver
 import com.iti.mad41.taqs.util.setupSnackbar
 
@@ -38,20 +39,13 @@ class SettingsFragment : Fragment() {
 
     private lateinit var settingsFragmentBinding: SettingsFragmentBinding
 
-    private lateinit var weatherRemoteDataSource: WeatherRemoteDataSource
-
-    private lateinit var preferencesDataSource: PreferencesDataSource
-
-    private lateinit var weatherRepository: WeatherRepository
-
     private lateinit var locationViewModel: LocationViewModel
 
     private val viewModel by viewModels<SettingsViewModel> {
-        weatherRemoteDataSource = WeatherRemoteDataSource()
-        preferencesDataSource = SharedPreferencesDataSource(requireContext())
-        weatherRepository = DefaultWeatherRepository(weatherRemoteDataSource, preferencesDataSource)
-        SettingsViewModelFactory(requireActivity().application, weatherRepository)
+        SettingsViewModelFactory(ServiceLocator.provideRepository(requireActivity().application))
     }
+
+    private val sharedMapsViewModel: SharedMapsViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         settingsFragmentBinding = SettingsFragmentBinding.inflate(inflater, container, false).apply {
@@ -75,6 +69,15 @@ class SettingsFragment : Fragment() {
 
         viewModel.reinitializeActivityEvent.observe(viewLifecycleOwner, EventObserver {
             restartMainActivity()
+        })
+
+        sharedMapsViewModel.locationDetails.observe(viewLifecycleOwner, EventObserver { locationDetails ->
+            viewModel.saveAccessLocationType(AccessLocationType.Map.value)
+            viewModel.saveLocation(
+                locationDetails.latitude,
+                locationDetails.longitude,
+                locationDetails.address
+            )
         })
     }
 
